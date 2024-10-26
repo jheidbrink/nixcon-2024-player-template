@@ -20,7 +20,7 @@
       let pkgs = import nixpkgs { inherit system; };
       in rec {
         packages = {
-          webserver = pkgs.writers.writePython3
+          webserver = pkgs.writers.writePython3Bin
             "webserver"
             {
               libraries = [ pkgs.python3Packages.fastapi pkgs.python3Packages.uvicorn ];
