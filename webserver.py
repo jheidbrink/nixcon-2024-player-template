@@ -7,13 +7,13 @@ app = FastAPI()
 async def read_root():
     return {"Hello": "World"}
 
-@app.get("/{a}/{b}")
+@app.get("add/{a}/{b}")
 async def add(a: int, b: int) -> int:
     return a + b
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "q": q}
+@app.get("mult/{a}/{b}")
+async def mult(a: int, b: int) -> int:
+    return a * b
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8080, log_level="info")
