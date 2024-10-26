@@ -20,14 +20,13 @@
       let pkgs = import nixpkgs { inherit system; };
       in rec {
         packages = {
-          webserver = pkgs.writeShellScriptBin "server" ''
-          ${pkgs.lib.makeBinPath pkgs.nc}
-
-          while true
-          do
-            echo hello | nc -l 8080
-          done
-          '';
+          webserver = pkgs.writers.writePython3
+            "webserver"
+            {
+              libraries = [ pkgs.python3Packages.fastapi pkgs.python3Packages.uvicorn ];
+              flakeIgnore = [ "E265" "E225" "E302" ];
+            }
+            (builtins.readFile ./webserver.py);
           default = packages.webserver;
         };
         apps.default = {
