@@ -1,5 +1,5 @@
 {
-  description = "NixCon 2024 - NixOS on garnix: Production-grade hosting as a game";
+  description = "NixCon 2024 - NixOS on garnix: Production-grade hosting as a game!";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
