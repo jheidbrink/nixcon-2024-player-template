@@ -20,7 +20,14 @@
       let pkgs = import nixpkgs { inherit system; };
       in rec {
         packages = {
-          webserver = pkgs.hello;
+          webserver = pkgs.writeShellScriptBin "server" ''
+          ${pkgs.lib.makeBinPath pkgs.nc}
+
+          while true
+          do
+            echo hello | nc -l 8080
+          done
+          '';
           default = packages.webserver;
         };
         apps.default = {
@@ -48,7 +55,7 @@
           ({ pkgs, ... }: {
             playerConfig = {
               # Your github user:
-              githubLogin = "GITHUB_USER";
+              githubLogin = "jheidbrink";
               # You only need to change this if you changed the forked repo name.
               githubRepo = "nixcon-2024-player-template";
               # The nix derivation that will be used as the server process. It
@@ -57,7 +64,7 @@
               webserver = self.packages.${system}.webserver;
               # If you want to log in to your deployed server, put your SSH key
               # here:
-              sshKey = "<YOUR_PUBLIC_SSH_KEY>";
+              sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDFjhXJi527umYatwTlRk9IIfQgAOh4uZTtEaAM9nm721gytxV+GEJPhzsIStFXLC7A4p1dpjzAxXTazUX30NuQZJYSxRcEaRwfW0uyNFqGhrY2KH5ccy7iUgKuS8IzMo/epiNP1560SJ+gyvsLdUJnD8u6ufOUGXw/IImyhkFQf84/fqzGlO4Z6OlMxRlxb68hXJsNiFXQiAHlvvdMkRTOmNRta0ha1mybV/U0Yv8xcoy4XIpJ+2zAKbiFrySz+RE1AOe2kj84+gzinxh2hDPtFJ5oNg1jjgeB1rWOpTbSspCyl2VzP/kIoUoRp9KWDgUGdJvPDYDDHPwuOh1ksouOFLy2lDPjfxvNfNmz8YHqFuNY1JO3rYRTN4f++BDsY9PVQxWLZmi2/LBPqdLqPNxfBYylWGdhez1/f7fDK4rHqAY/Fc6QeYagpd9e9PTadUk9ZWxm1Ip7h1UQNzDbwYNmTBWA0k1QP+Gc4a3U2zx8lazAXwIF8DTQFxrnREWbGA8=";
             };
           })
         ];
